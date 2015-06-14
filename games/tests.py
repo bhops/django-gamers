@@ -1,3 +1,5 @@
+import json
+
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import timezone
@@ -45,7 +47,7 @@ class PlatformModelTest(TestCase):
         self.assertEqual(str(Platform._meta.verbose_name_plural), "platforms")
 
 
-class GameTests(APITestCase):
+class GameAndPlatformTests(APITestCase):
 
     def setUp(self):
         self.p1 = Platform(name='PC', company='N/A', description='A random computer', released=timezone.now())
@@ -94,6 +96,7 @@ class GameTests(APITestCase):
             'released': timezone.now()
         }
         response = self.client.post(url, data, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn('released', response.data)
         self.assertIn('description', response.data)
@@ -106,6 +109,7 @@ class GameTests(APITestCase):
         """
         url = reverse('platform-detail', args=[self.p1.id])
         response = self.client.get(url, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('name'), self.p1.name)
         self.assertEqual(response.data.get('description'), self.p1.description)
@@ -114,18 +118,19 @@ class GameTests(APITestCase):
         """
         Verify that we can update a platform.
         """
-        new_title = 'Not a PC'
+        new_name = 'Not a PC'
         url = reverse('platform-detail', args=[self.p1.id])
         data = {
-            'name': new_title,
+            'name': new_name,
             'company': self.p1.company,
             'description': self.p1.description
         }
         response = self.client.put(url, data, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('company'), self.p1.company)
         self.assertEqual(response.data.get('description'), self.p1.description)
-        self.assertEqual(response.data.get('name'), new_title)
+        self.assertEqual(response.data.get('name'), new_name)
 
     def test_platform_delete(self):
         """
@@ -133,10 +138,11 @@ class GameTests(APITestCase):
         """
         url = reverse('platform-detail', args=[self.p1.id])
         response = self.client.delete(url, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(response.data, None)
 
-        # Check for the platform on the list
+        # Check for the platform on the list.
         url = reverse('platform-list')
         response = self.client.get(url, format='json')
         results = response.data.get('results', [])
@@ -170,6 +176,7 @@ class GameTests(APITestCase):
                 'released': timezone.now()
             }
         response = self.client.post(url, data, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn('platform', response.data)
         self.assertIn('released', response.data)
@@ -177,11 +184,49 @@ class GameTests(APITestCase):
         self.assertEqual('League of Legends', response.data.get('title'))
 
     def test_game_detail(self):
-        pass
+        """
+        Verify that we can query a single game.
+        """
+        url = reverse('game-detail', args=[self.g1.id])
+        response = self.client.get(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('title'), self.g1.title)
+        self.assertEqual(response.data.get('description'), self.g1.description)
 
     def test_game_update(self):
-        pass
+        """
+        Verify that we can update a game.
+        """
+        new_title = 'Not League of Legends'
+        url = reverse('game-detail', args=[self.g1.id])
+        data = {
+            'title': new_title,
+            'platform': self.g1.platform.id,
+            'description': self.g1.description,
+            'released': self.g1.released
+        }
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('description'), self.g1.description)
+        self.assertEqual(response.data.get('title'), new_title)
 
     def test_game_delete(self):
-        pass
+        """
+        Verify that we can delete a platform.
+        """
+        url = reverse('game-detail', args=[self.g1.id])
+        response = self.client.delete(url, format='json')
 
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.data, None)
+
+        # Check for the game on the list.
+        url = reverse('game-list')
+        response = self.client.get(url, format='json')
+        results = response.data.get('results', [])
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].get('title'), self.g2.title)
