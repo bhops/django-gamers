@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from  abc
 
 class Platform(models.Model):
     name = models.CharField(max_length=100)
