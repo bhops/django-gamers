@@ -1,5 +1,3 @@
-import json
-
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import timezone
@@ -29,6 +27,22 @@ class GameModelTest(TestCase):
         Verify that the plural of `Game` is `Games`.
         """
         self.assertEqual(str(Game._meta.verbose_name_plural), "games")
+
+    def test_description_pull(self):
+        """
+        Verify that the game descriptions are pulled in correctly only when description is set to `tbd`.
+        """
+        game = Game(title="Hearthstone: Heroes of Warcraft",
+                    released=timezone.now(),
+                    platform=self.platform,
+                    description='This is not a real description')
+        game.save()
+        self.assertEqual(game.description, 'This is not a real description') # Verify that the description is unchanged
+        game.description = 'tbd'
+        game.save()
+        self.assertNotEqual(game.description, 'This is not a real description')
+        self.assertNotEqual(game.description, 'tbd')
+        self.assertNotEqual(game.description, '')
 
 
 class PlatformModelTest(TestCase):
