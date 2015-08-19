@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'games',
+    'matchup',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -86,8 +87,12 @@ WSGI_APPLICATION = 'gamerfinder.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'gamerfinder',
+        'USER': 'gamerfinder',
+        'PASSWORD': 'gamerfinder',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
