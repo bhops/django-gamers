@@ -24,7 +24,7 @@ class Game(models.Model):
     platform = models.ForeignKey(Platform, related_name='games')
 
     def __str__(self):
-        return self.title + ' (' + self.platform.name + ')'
+        return '[' + self.platform.name + '] ' + self.title
 
     class Meta:
         ordering = ('title',)
