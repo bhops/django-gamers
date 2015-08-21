@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 from .models import Game, OwnedGame, Platform
-
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -324,6 +323,4 @@ class OwnedGameModelTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].get('game').get('title'), self.g1.title)
-
-
 

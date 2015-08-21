@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'games',
     'matchup',
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
