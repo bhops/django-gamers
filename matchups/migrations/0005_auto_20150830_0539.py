@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0002_auto_20150821_1750'),
+        ('matchups', '0004_auto_20150825_2225'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='userprofile',
-            name='about',
-            field=models.CharField(default='', max_length=255),
+        migrations.AlterField(
+            model_name='lookingforpost',
+            name='game',
+            field=models.ForeignKey(to='games.Game'),
         ),
     ]

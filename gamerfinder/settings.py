@@ -46,8 +46,9 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'games',
-    'matchup',
+    'matchups',
     'users',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (

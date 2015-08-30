@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
+from django.template.defaultfilters import slugify
 import requests
 
 class Platform(models.Model):
@@ -18,6 +19,7 @@ class Platform(models.Model):
 
 class Game(models.Model):
     title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=50, unique=True)
     description = models.TextField()
     released = models.DateTimeField()
     added = models.DateField(auto_now_add=True)
@@ -25,6 +27,12 @@ class Game(models.Model):
 
     def __str__(self):
         return '[' + self.platform.name + '] ' + self.title
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Newly created object, create a slug.
+            self.slug = slugify(self.title)
+        super(Game, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('title',)

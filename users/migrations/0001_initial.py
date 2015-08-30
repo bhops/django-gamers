@@ -15,11 +15,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('dob', models.DateField()),
+                ('sex', models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('?', 'Prefer not to disclose')], default='M')),
+                ('about', models.CharField(max_length=255, default="This user hasn't updated their profile.")),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'ordering': ('user',),
+            },
         ),
     ]

@@ -35,4 +35,3 @@ class OwnedGameList(generics.ListCreateAPIView):
     def get_queryset(self):
         username = self.kwargs['username']
         return OwnedGame.objects.filter(user__username=username)
-

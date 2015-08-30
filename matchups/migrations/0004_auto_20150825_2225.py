@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_userprofile_about'),
+        ('matchups', '0003_schedule_scheduleblock'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userprofile',
-            name='about',
-            field=models.CharField(max_length=255, default="This user hasn't updated their profile."),
+            model_name='scheduleblock',
+            name='schedule',
+            field=models.ForeignKey(to='matchups.Schedule', related_name='blocks'),
         ),
     ]

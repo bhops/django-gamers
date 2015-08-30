@@ -21,6 +21,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^', include('games.urls')),
     url(r'^', include('users.urls')),
+    url(r'^', include('matchups.urls')),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),

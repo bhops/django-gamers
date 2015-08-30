@@ -185,7 +185,7 @@ class GameAndPlatformTests(APITestCase):
         url = reverse('game-list')
         data = {
                 'title': 'League of Legends',
-                'platform': self.p1.id,
+                'platform': self.p1.name,
                 'description': 'description',
                 'released': timezone.now()
             }
@@ -216,7 +216,7 @@ class GameAndPlatformTests(APITestCase):
         url = reverse('game-detail', args=[self.g1.id])
         data = {
             'title': new_title,
-            'platform': self.g1.platform.id,
+            'platform': self.g1.platform.name,
             'description': self.g1.description,
             'released': self.g1.released
         }

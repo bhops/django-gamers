@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from .models import LookingForPost
+from .models import LookingForPost, Schedule, ScheduleBlock
 from games.models import OwnedGame
 
 class LookingForPostForm(forms.ModelForm):
@@ -16,3 +16,5 @@ class LookingForPostAdminForm(admin.ModelAdmin):
     form = LookingForPostForm
 
 admin.site.register(LookingForPost)
+admin.site.register(Schedule) # TODO
+admin.site.register(ScheduleBlock) # TODO

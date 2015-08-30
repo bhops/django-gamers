@@ -2,6 +2,8 @@ from rest_framework import serializers
 from games.models import Game, OwnedGame, Platform
 
 class GameSerializer(serializers.ModelSerializer):
+    platform = serializers.SlugRelatedField(queryset=Platform.objects.all(), slug_field='name')
+    slug = serializers.SlugField(required=False, allow_null=True)
     class Meta:
         model = Game
 

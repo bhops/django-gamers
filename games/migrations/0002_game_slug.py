@@ -7,13 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('matchup', '0002_auto_20150818_2351'),
+        ('games', '0001_initial'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='lookingforpost',
-            name='game',
-            field=models.ForeignKey(to='games.OwnedGame'),
+        migrations.AddField(
+            model_name='game',
+            name='slug',
+            field=models.SlugField(default=''),
+            preserve_default=False,
         ),
     ]

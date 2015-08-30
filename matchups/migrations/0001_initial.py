@@ -9,16 +9,19 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('games', '0002_auto_20150612_1733'),
+        ('games', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='OwnedGame',
+            name='LookingForPost',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
-                ('game', models.ForeignKey(to='games.Game')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('game', models.ForeignKey(to='games.OwnedGame')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
+            options={
+                'ordering': ('user',),
+            },
         ),
     ]
