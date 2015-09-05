@@ -26,7 +26,8 @@ class GameModelTest(TestCase):
 
     def test_description_pull(self):
         """
-        Verify that the game descriptions are pulled in correctly only when description is set to `tbd`.
+        Verify that the game descriptions are pulled in correctly only when
+        the description is set to `tbd`.
         """
         game = Game(title="Hearthstone: Heroes of Warcraft",
         released=timezone.now(),
