@@ -1,18 +1,21 @@
 from django.db import models
 from django.db.models.signals import pre_save
-from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 import requests
 
 class Platform(models.Model):
     name = models.CharField(max_length=100)
-    company = models.CharField(max_length=100)
-    description = models.TextField()
-    released = models.DateField(auto_now_add=True)
+    slug = models.SlugField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Newly created object, create a slug.
+            self.slug = slugify(self.name)
+        super(Platform, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('name',)
@@ -21,7 +24,7 @@ class Game(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=50, unique=True)
     description = models.TextField()
-    released = models.DateTimeField()
+    released = models.DateField(auto_now_add=True)
     added = models.DateField(auto_now_add=True)
     platform = models.ForeignKey(Platform, related_name='games')
 
@@ -47,10 +50,3 @@ def get_game_details(sender, **kwargs):
         json = r.json()
         result = json.get('result', None)
         instance.description = result.get('summary', 'No Description Available') if result else 'No Description Available'
-
-class OwnedGame(models.Model):
-    user = models.ForeignKey(User)
-    game = models.ForeignKey(Game)
-
-    def __str__(self):
-        return '[' + self.user.username +'] ' + self.game.title

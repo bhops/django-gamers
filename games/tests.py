@@ -1,15 +1,14 @@
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
-from .models import Game, OwnedGame, Platform
+from .models import Game, Platform
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 class GameModelTest(TestCase):
 
     def setUp(self):
-        self.platform = Platform(name='PC', released=timezone.now())
+        self.platform = Platform(name='PC')
         self.platform.save()
 
     def tearDown(self):
@@ -51,7 +50,7 @@ class PlatformModelTest(TestCase):
         """
         Verify that Platforms appear with the appropriate string.
         """
-        platform = Platform(name="PC", released=timezone.now())
+        platform = Platform(name="PC")
         self.assertEqual(str(platform), platform.name)
 
     def test_verbose_name_plural(self):
@@ -64,8 +63,8 @@ class PlatformModelTest(TestCase):
 class GameAndPlatformTests(APITestCase):
 
     def setUp(self):
-        self.p1 = Platform(name='PC', company='N/A', description='A random computer', released=timezone.now())
-        self.p2 = Platform(name='PS4', company='Sony', description='Sony Playstation 4', released=timezone.now())
+        self.p1 = Platform(name='PC')
+        self.p2 = Platform(name='PS4')
         self.p1.save()
         self.p2.save()
         self.g1 = Game(title='Hearthstone',
@@ -134,16 +133,10 @@ class GameAndPlatformTests(APITestCase):
         """
         new_name = 'Not a PC'
         url = reverse('platform-detail', args=[self.p1.id])
-        data = {
-            'name': new_name,
-            'company': self.p1.company,
-            'description': self.p1.description
-        }
+        data = { 'name': new_name }
         response = self.client.put(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data.get('company'), self.p1.company)
-        self.assertEqual(response.data.get('description'), self.p1.description)
         self.assertEqual(response.data.get('name'), new_name)
 
     def test_platform_delete(self):
@@ -244,83 +237,3 @@ class GameAndPlatformTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].get('title'), self.g2.title)
-
-class OwnedGameModelTest(APITestCase):
-
-    def setUp(self):
-        self.user = User.objects.create_user(
-            username='testuser',
-            email='test@example.com',
-            password='testing123'
-        )
-        self.user2 = User.objects.create_user(
-            username='anothertest',
-            email='another@example.com',
-            password='testing321'
-        )
-        self.user.save()
-        self.user2.save()
-        self.p1 = Platform(name='PC', company='N/A', description='A random computer', released=timezone.now())
-        self.p2 = Platform(name='PS4', company='Sony', description='Sony Playstation 4', released=timezone.now())
-        self.p1.save()
-        self.p2.save()
-        self.g1 = Game(title='Hearthstone: Heroes of Warcraft',
-                    platform=self.p1,
-                    description='Hearthstone by Blizzard',
-                    released=timezone.now())
-        self.g2 = Game(title='Battlefield 4',
-                    platform=self.p2,
-                    description='EA Games',
-                    released=timezone.now())
-        self.g1.save()
-        self.g2.save()
-        self.og1 = OwnedGame(user=self.user, game=self.g1)
-        self.og2 = OwnedGame(user=self.user, game=self.g2)
-        self.og3 = OwnedGame(user=self.user2, game=self.g1)
-        self.og1.save()
-        self.og2.save()
-        self.og3.save()
-
-    def tearDown(self):
-        self.og1.save()
-        self.og2.save()
-        self.og3.save()
-        self.g2.delete()
-        self.g1.delete()
-        self.p2.delete()
-        self.p1.delete()
-        self.user.delete()
-        self.user2.delete()
-
-    def test_string_representation(self):
-        """
-        Verify that the string representation of OwnedGame is correct.
-        """
-        og = OwnedGame(user=self.user, game=self.g1)
-        self.assertEqual(str(og), '[testuser] Hearthstone: Heroes of Warcraft')
-
-    def test_verbose_name_plural(self):
-        """
-        Verify that plural of `owned game` is `owned games`.
-        """
-        self.assertEqual(str(OwnedGame._meta.verbose_name_plural), "owned games")
-
-    def test_ownedgame_list(self):
-        """
-        Verify that we can query the list of owned games for a user.
-        """
-        url = reverse('owned-game-list', args=[self.user.username])
-        response = self.client.get(url, format='json')
-        results = response.data.get('results', [])
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(results), 2)
-        self.assertEqual(results[0].get('game').get('title'), self.g1.title)
-        self.assertEqual(results[1].get('game').get('title'), self.g2.title)
-
-        url = reverse('owned-game-list', args=[self.user2.username])
-        response = self.client.get(url, format='json')
-        results = response.data.get('results', [])
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0].get('game').get('title'), self.g1.title)
-

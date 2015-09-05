@@ -46,9 +46,9 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'games',
-    'matchups',
     'users',
     'debug_toolbar',
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -62,7 +62,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'gamerfinder.urls'
+ROOT_URLCONF = 'gamerfinder.urls.web'
 
 TEMPLATES = [
     {
@@ -131,3 +131,5 @@ REST_FRAMEWORK = {
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_ID = 1
+
+SHELL_PLUS = 'ipython'

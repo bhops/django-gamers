@@ -19,9 +19,7 @@ from django.contrib import admin
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^', include('games.urls')),
-    url(r'^', include('users.urls')),
-    url(r'^', include('matchups.urls')),
+    url(r'^api/', include('gamerfinder.urls.api')),
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),

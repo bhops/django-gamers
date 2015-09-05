@@ -1,9 +1,10 @@
-from games.models import Game, OwnedGame, Platform
-from games.serializers import GameSerializer, OwnedGameSerializer, PlatformSerializer
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from games.models import Game, Platform
+from games.serializers import GameSerializer, PlatformSerializer
+from utils.permissions import IsAdminOrReadOnly
 
 @api_view(('GET',))
 def api_root(request, format=None):
@@ -14,10 +15,14 @@ def api_root(request, format=None):
     })
 
 class GameList(generics.ListCreateAPIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    lookup_field = 'slug'
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    lookup_field = 'slug'
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
@@ -26,12 +31,6 @@ class PlatformList(generics.ListCreateAPIView):
     serializer_class = PlatformSerializer
 
 class PlatformDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'slug'
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
-
-class OwnedGameList(generics.ListCreateAPIView):
-    serializer_class = OwnedGameSerializer
-
-    def get_queryset(self):
-        username = self.kwargs['username']
-        return OwnedGame.objects.filter(user__username=username)
