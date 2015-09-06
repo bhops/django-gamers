@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import UserProfile
+from .models.user_profile import UserProfile
 
 class UserProfileModelTest(TestCase):
     def setUp(self):

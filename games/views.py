@@ -27,10 +27,12 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GameSerializer
 
 class PlatformList(generics.ListCreateAPIView):
+    permission_classes = (IsAdminOrReadOnly,)
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
 
 class PlatformDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAdminOrReadOnly,)
     lookup_field = 'slug'
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
