@@ -193,6 +193,10 @@ class AdminGameAPITests(GameAPITests):
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn('platform', response.data)
+        self.assertIn('released', response.data)
+        self.assertIn('description', response.data)
+        self.assertEqual('League of Legends', response.data.get('title'))
 
     def test_game_detail(self):
         """
@@ -220,6 +224,7 @@ class AdminGameAPITests(GameAPITests):
         response = self.client.put(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('title'), new_title)
 
     def test_game_delete(self):
         """
