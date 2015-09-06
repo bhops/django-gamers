@@ -3,31 +3,25 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
 from games.models import Game, Platform
-from users.factories.user import UserFactory
+from games.factories import GameFactory, PlatformFactory
+from users.factories import UserFactory
 
 class GameAPITests(APITestCase):
     def setUp(self):
-        self.p1 = Platform(name='PC')
-        self.p2 = Platform(name='PS4')
+        self.p1 = PlatformFactory()
+        self.p2 = PlatformFactory()
         self.p1.save()
         self.p2.save()
-        self.g1 = Game(title='Hearthstone',
-                       platform=self.p1,
-                       description='Hearthstone by Blizzard',
-                       released=timezone.now())
-        self.g2 = Game(title='Battlefield 4',
-                       platform=self.p2,
-                       description='EA Games',
-                       released=timezone.now())
+        self.g1 = GameFactory(platform=self.p1)
+        self.g2 = GameFactory(platform=self.p2)
         self.g1.save()
         self.g2.save()
 
     def tearDown(self):
-        self.g2.delete()
         self.g1.delete()
-        self.p2.delete()
+        self.g2.delete()
         self.p1.delete()
-
+        self.p2.delete()
 
 class AuthenticatedGameAPITests(GameAPITests):
     def setUp(self):
@@ -49,8 +43,8 @@ class AuthenticatedGameAPITests(GameAPITests):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(results), 2)
-        self.assertEqual(results[0].get('title'), self.g2.title)
-        self.assertEqual(results[1].get('title'), self.g1.title)
+        self.assertEqual(results[0].get('title'), self.g1.title)
+        self.assertEqual(results[1].get('title'), self.g2.title)
 
     def test_game_create(self):
         """
@@ -124,8 +118,8 @@ class AdminGameAPITests(GameAPITests):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(results), 2)
-        self.assertEqual(results[0].get('title'), self.g2.title)
-        self.assertEqual(results[1].get('title'), self.g1.title)
+        self.assertEqual(results[0].get('title'), self.g1.title)
+        self.assertEqual(results[1].get('title'), self.g2.title)
 
     def test_game_create(self):
         """

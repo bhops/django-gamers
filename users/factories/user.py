@@ -2,7 +2,7 @@ import datetime
 import factory
 import factory.fuzzy
 from django.contrib.auth.models import User
-from ..models.user_profile import UserProfile
+from ..models import UserProfile
 
 class UserFactory(factory.Factory):
     class Meta:

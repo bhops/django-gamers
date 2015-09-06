@@ -3,23 +3,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
-
-
-class Platform(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            # Newly created object, create a slug.
-            self.slug = slugify(self.name)
-        super(Platform, self).save(*args, **kwargs)
-
-    class Meta:
-        ordering = ('name',)
+from .platform import Platform
 
 class Game(models.Model):
     title = models.CharField(max_length=100)
@@ -40,6 +24,7 @@ class Game(models.Model):
 
     class Meta:
         ordering = ('title',)
+
 
 @receiver(pre_save, sender=Game)
 def get_game_details(sender, **kwargs):
