@@ -1,7 +1,7 @@
 import factory
 from ..models import Platform
 
-class PlatformFactory(factory.Factory):
+class PlatformFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Platform
 

@@ -4,7 +4,7 @@ import factory.fuzzy
 from ..models import Game
 from .platform import PlatformFactory
 
-class GameFactory(factory.Factory):
+class GameFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Game
 

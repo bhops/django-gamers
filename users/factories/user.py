@@ -4,7 +4,7 @@ import factory.fuzzy
 from django.contrib.auth.models import User
 from ..models import UserProfile
 
-class UserFactory(factory.Factory):
+class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
@@ -14,7 +14,7 @@ class UserFactory(factory.Factory):
     email = factory.LazyAttribute(lambda o: '%s@example.org' % o.username)
     is_staff = False
 
-class UserProfileFactory(factory.Factory):
+class UserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserProfile
 
