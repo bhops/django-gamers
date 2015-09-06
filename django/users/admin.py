@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models.user_profile import UserProfile
+from .models import UserProfile
 
-class UserProfileAdmin(admin.StackedInline):
+class UserProfileInlineAdmin(admin.StackedInline):
     model = UserProfile
     # We only want 1 user profile per user
     extra = 0
@@ -20,7 +20,7 @@ class UserAdmin(admin.ModelAdmin):
               'date_joined')
     list_display = ('username', 'email', 'first_name', 'last_name')
     list_filter = ('is_superuser', 'is_staff')
-    inlines = [ UserProfileAdmin ]
+    inlines = [ UserProfileInlineAdmin ]
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

@@ -21,7 +21,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^api/', include('gamerfinder.urls.api')),
     url(r'^grappelli/', include('grappelli.urls')),
-    url(r'^admin', include(admin.site.urls)),
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

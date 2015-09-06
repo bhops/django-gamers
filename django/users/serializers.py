@@ -3,9 +3,10 @@ from rest_framework import serializers
 from .models.user_profile import UserProfile
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    about = serializers.CharField(source='userprofile.about')
-    sex = serializers.CharField(source='userprofile.sex')
-    dob = serializers.DateField(source='userprofile.dob')
+    about = serializers.CharField(source='userprofile.about', required=False)
+    sex = serializers.CharField(source='userprofile.sex', required=False)
+    dob = serializers.DateField(source='userprofile.dob', required=False)
+    username = serializers.CharField(required=False)
 
     class Meta:
         model = User
