@@ -1,8 +1,9 @@
+import requests
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
-import requests
+
 
 class Platform(models.Model):
     name = models.CharField(max_length=100)
@@ -42,6 +43,7 @@ class Game(models.Model):
 
 @receiver(pre_save, sender=Game)
 def get_game_details(sender, **kwargs):
+    # TODO bhops: clean this up
     instance = kwargs.get('instance', None)
     if instance is not None and instance.description == 'tbd':
         url = 'https://metacritic-2.p.mashape.com/find/game?platform='+instance.platform.name.lower()+'&title='+instance.title

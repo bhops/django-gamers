@@ -1,9 +1,9 @@
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-from games.models import Game, Platform
-from users.factories.user import UserFactory
 from rest_framework import status
 from rest_framework.test import APITestCase
+from games.models import Game, Platform
+from users.factories.user import UserFactory
 
 class GameAPITests(APITestCase):
     def setUp(self):
