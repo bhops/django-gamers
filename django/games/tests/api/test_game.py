@@ -2,7 +2,6 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
-from games.models import Game, Platform
 from games.factories import GameFactory, PlatformFactory
 from users.factories import UserFactory
 
@@ -22,6 +21,66 @@ class GameAPITests(APITestCase):
         self.g2.delete()
         self.p1.delete()
         self.p2.delete()
+
+
+    def test_game_list(self):
+        """
+        Verify that we cannot query the list of games unauthenticated.
+        """
+        url = reverse('game-list')
+        response = self.client.get(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_game_create(self):
+        """
+        Verify that we cannot create a new game unauthenticated.
+        """
+        url = reverse('game-list')
+        data = {
+                'title': 'League of Legends',
+                'platform': self.p1.slug,
+                'description': 'description',
+                'released': timezone.now()
+            }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_game_detail(self):
+        """
+        Verify that we cannot query a single game unauthenticated.
+        """
+        url = reverse('game-detail', args=[self.g1.slug])
+        response = self.client.get(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_game_update(self):
+        """
+        Verify that we cannot update a game unauthenticated.
+        """
+        new_title = 'Not League of Legends'
+        url = reverse('game-detail', args=[self.g1.slug])
+        data = {
+            'title': new_title,
+            'platform': self.g1.platform.slug,
+            'description': self.g1.description,
+            'released': self.g1.released
+        }
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_game_delete(self):
+        """
+        Verify that we cannot delete a game when unauthenticated.
+        """
+        url = reverse('game-detail', args=[self.g1.slug])
+        response = self.client.delete(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
 
 class AuthenticatedGameAPITests(GameAPITests):
     def setUp(self):
@@ -96,7 +155,6 @@ class AuthenticatedGameAPITests(GameAPITests):
         response = self.client.delete(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
 
 class AdminGameAPITests(GameAPITests):
     def setUp(self):
