@@ -10,6 +10,8 @@ Router.map(function() {
       this.resource('user', { path: '/:user_id' })
   });
   this.route('users', function() {});
+  this.route('signup');
+  this.route('login');
 });
 
 export default Router;

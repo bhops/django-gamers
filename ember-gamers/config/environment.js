@@ -13,6 +13,16 @@ module.exports = function(environment) {
       }
     },
 
+    'simple-auth': {
+        authorizer: 'simple-auth-authorizer:token'
+    },
+    'simple-auth-token': {
+        tokenPropertyName: 'token',
+        identificationField: 'username',
+        refreshAccessTokens: true,
+        timeFactor: 1000,
+        refreshLeeway: 300, // Refresh the token 5 minutes (300s) before it expires.
+    },
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
@@ -22,6 +32,7 @@ module.exports = function(environment) {
   if (environment === 'development') {
       ENV.APP.API_HOST = 'http://localhost:8000';
       ENV.APP.API_NAMESPACE = 'api';
+      ENV['simple-auth'].crossOriginWhitelist = [ENV.APP.API_HOST]
 
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
@@ -45,7 +56,8 @@ module.exports = function(environment) {
   if (environment === 'production') {
 
   }
-
+  ENV['simple-auth-token'].serverTokenEndpoint = ENV.APP.API_HOST + '/api-token-auth/';
+  ENV['simple-auth-token'].serverTokenRefreshEndpoint = ENV.APP.API_HOST + '/api-token-refresh/';
   ENV.contentSecurityPolicy = {
     'connect-src': "'self' " + ENV.APP.API_HOST
   }
