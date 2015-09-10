@@ -1,30 +1,33 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models.user_profile import UserProfile
+from rest_framework.response import Response
+from rest_framework.validators import UniqueValidator
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    about = serializers.CharField(source='userprofile.about', required=False)
-    sex = serializers.CharField(source='userprofile.sex', required=False)
-    dob = serializers.DateField(source='userprofile.dob', required=False)
-    username = serializers.CharField(required=False)
+    username = serializers.CharField(required=True,
+                                     validators=[UniqueValidator(queryset=User.objects.all(),
+                                                                 message="That username is already in use.")])
+    email = serializers.EmailField(required=True,
+                                   validators=[UniqueValidator(queryset=User.objects.all(),
+                                                               message="That email is already in use.")])
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'dob', 'about', 'sex')
+        fields = ('id', 'username', 'first_name', 'last_name', 'password','email')
+        write_only_fields = ('password',)
+        read_only_fields = ('id', 'username',)
 
     def create(self, validated_data):
-        profile_data = validated_data.pop('userprofile', None)
-        user = super(UserSerializer, self).create(validated_data)
-        self.create_or_update_profile(user, profile_data)
+        user = User.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
         return user
-
-    def update(self, instance, validated_data):
-        profile_data = validated_data.pop('userprofile', None)
-        self.create_or_update_profile(instance, profile_data)
-        return super(UserSerializer, self).update(instance, validated_data)
-
-    def create_or_update_profile(self, user, profile_data):
-        profile, created = UserProfile.objects.get_or_create(user=user, defaults=profile_data)
-        if not created and profile_data is not None:
-            super(UserSerializer, self).update(profile, profile_data)
-

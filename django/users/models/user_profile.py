@@ -10,17 +10,18 @@ class UserProfile(models.Model):
         (FEMALE, 'Female'),
         (PNTD, 'Prefer not to disclose'),
     )
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name="profile")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    dob = models.DateField()
+    dob = models.DateField(null=True)
     sex = models.CharField(max_length=1,
                            choices=SEX_CHOICES,
-                           default=MALE)
+                           default=PNTD)
     about = models.CharField(max_length=255, default='This user hasn\'t updated their profile.')
 
     def __str__(self):
         return self.user.username
 
     class Meta:
+        app_label = 'users'
         ordering = ('user',)

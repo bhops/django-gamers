@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
-
+import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
@@ -140,7 +140,8 @@ REST_FRAMEWORK = {
 
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer'
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1)
 }
 
 AUTHENTICATION_BACKEND = (

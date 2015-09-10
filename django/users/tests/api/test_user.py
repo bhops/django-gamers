@@ -46,11 +46,9 @@ class UnauthenticatedUserAPITests(UserAPITests):
         data = {
             'username': 'testuser123',
             'password': 'thisisapassword',
-            'dob': '1970-01-01',
-            'sex': 'M',
             'first_name': 'John',
             'last_name': 'Doe',
-            'about': 'Something about John Doe'
+            'email': 'test@example.com'
         }
         response = self.client.post(url, data, format='json')
 
@@ -113,11 +111,9 @@ class AuthenticatedUserAPITests(UserAPITests):
         data = {
             'username': 'testuser123',
             'password': 'thisisapassword',
-            'dob': '1970-01-01',
-            'sex': 'M',
             'first_name': 'John',
             'last_name': 'Doe',
-            'about': 'Something about John Doe'
+            'email': 'test@example.com'
         }
         response = self.client.post(url, data, format='json')
 
@@ -195,11 +191,9 @@ class AdminUserAPITests(UserAPITests):
         data = {
             'username': 'testuser123',
             'password': 'thisisapassword',
-            'dob': '1970-01-01',
-            'sex': 'M',
             'first_name': 'John',
             'last_name': 'Doe',
-            'about': 'Something about John Doe'
+            'email': 'test@example.com'
         }
         response = self.client.post(url, data, format='json')
 

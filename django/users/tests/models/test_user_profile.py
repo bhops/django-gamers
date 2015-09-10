@@ -17,29 +17,17 @@ class UserProfileModelTest(TestCase):
         )
         self.user.save()
         self.user2.save()
-        self.userprofile = UserProfile.objects.create(
-            user = self.user,
-            dob = timezone.now()
-        )
-        self.userprofile2 = UserProfile.objects.create(
-            user = self.user2,
-            dob = timezone.now()
-        )
-        self.userprofile.save()
-        self.userprofile2.save()
 
 
     def TearDown(self):
         self.user.delete()
         self.user2.delete()
-        self.userprofile.save()
-        self.userprofile2.save()
 
     def test_string_representation(self):
         """
         Verify that the string representation of UserProfile is correct.
         """
-        self.assertEqual(str(self.userprofile), self.user.username)
+        self.assertEqual(str(self.user.profile), self.user.username)
 
     def test_verbose_name_plural(self):
         """
