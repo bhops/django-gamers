@@ -4,10 +4,8 @@ import UnauthenticatedRouteMixin from 'simple-auth/mixins/unauthenticated-route-
 export default Ember.Route.extend(UnauthenticatedRouteMixin, {
     setupController: function(controller) {
         controller.setProperties({
-            'firstname': '',
-            'lastname': '',
-            'dob': '',
-            'sex': '',
+            'first_name': '',
+            'last_name': '',
             'username': '',
             'email': '',
             'password': '',
