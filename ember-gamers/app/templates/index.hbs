@@ -1,47 +1,50 @@
 {{#unless session.isAuthenticated}}
-    <div class="header">
-        <h1>Stop Waiting. Start Gaming.</h1>
-        <h5 class="light">Get matchmaking now</h5>
-        {{#link-to 'signup' class="waves-effect light-blue btn"}}
-            Create a free account
-        {{/link-to}}
-    </div>
+<div class="jumbotron">
+    <h1>Stop Waiting. Start Gaming.</h1>
+    <br />
+    <p class="text-center">{{#link-to 'signup' class="btn btn-primary btn-lg"}}
+        Get matchmaking
+    {{/link-to}}</p>
 
-    <div class="divider"></div>
+    <p class="text-right">
+        Already have an account?
+        {{#link-to 'login'}}Sign In{{/link-to}}
+    </p>
+</div>
 
-    <div class="row">
+<div class="row">
 
-    <div class="col m4">
-        <p class="flow-text center">Find Players</p>
+    <div class="col-md-4">
+        <p class="lead text-center">Find Players</p>
         <div class="row">
-            <div class="col s6 offset-s3 center"><i class="medium material-icons">face</i></div>
+            ICON
         </div>
-        <p class="light center">
+        <p class="text-justified">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod facilisis mi eu porta. Nam posuere orci malesuada, pellentesque nunc quis, euismod est. In id accumsan risus. Vivamus tincidunt nec nibh in ornare. Donec quis tempor dolor. Mauris maximus sem eu vehicula blandit.
         </p>
     </div>
 
-    <div class="col m4">
-        <p class="flow-text center">Play Together</p>
+    <div class="col-md-4">
+        <p class="lead text-center">Play Together</p>
         <div class="row">
-            <div class="col s6 offset-s3 center"><i class="medium material-icons">games</i></div>
+            ICON
         </div>
-        <p class="light center">
+        <p class="text-justified">
              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod facilisis mi eu porta. Nam posuere orci malesuada, pellentesque nunc quis, euismod est. In id accumsan risus. Vivamus tincidunt nec nibh in ornare. Donec quis tempor dolor. Mauris maximus sem eu vehicula blandit.
         </p>
     </div>
 
-    <div class="col m4">
-        <p class="flow-text center">Rate Eachother</p>
+    <div class="col-md-4">
+        <p class="lead text-center">Rate Eachother</p>
         <div class="row">
-            <div class="col s6 offset-s3 center"><i class="medium material-icons">thumbs_up_down</i></div>
+            ICON
         </div>
-        <p class="light center">
+        <p class="text-justified">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod facilisis mi eu porta. Nam posuere orci malesuada, pellentesque nunc quis, euismod est. In id accumsan risus. Vivamus tincidunt nec nibh in ornare. Donec quis tempor dolor. Mauris maximus sem eu vehicula blandit.
         </p>
     </div>
 
-    </div>
+</div>
 {{else}}
-    <p>This is the authenticated page</p>
+<p>This is the authenticated page</p>
 {{/unless}}
