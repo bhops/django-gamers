@@ -1,6 +1,11 @@
 {{outlet}}
-<ul>
-{{#each user in model}}
-    <li>{{user.username}} - {{user.first_name}} {{user.last_name}}</li>
-{{/each}}
-</ul>
+{{#md-collection content=content as |user|}}
+    <div class='collection-item avatar'>
+        <i class="circle large account-circle"></i>
+        <span class="title">{{user.username}}</span>
+        <p>{{user.email}}</p>
+        {{#link-to item.route class='secondary-content'}}
+            <i class="mdi-action-favorite"></i>
+        {{/link-to}}
+    </div>
+{{/md-collection}}
