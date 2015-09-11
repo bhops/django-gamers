@@ -1,18 +1,17 @@
 import Ember from 'ember';
+import UnauthenticatedRouteMixin from 'simple-auth/mixins/unauthenticated-route-mixin';
 
-export default Ember.Route.extend({
-    model: function(){
-        return this.store.createRecord('user');
-    },
-    actions: {
-        save: function(){
-            return this.get('currentModel').save()
-            .then(function(){
-                alert('Flawless Victory!');
-            })
-            .catch(function(er){
-                alert('Fatality');
-            })
-        }
+export default Ember.Route.extend(UnauthenticatedRouteMixin, {
+    setupController: function(controller) {
+        controller.setProperties({
+            'firstname': '',
+            'lastname': '',
+            'dob': '',
+            'sex': '',
+            'username': '',
+            'email': '',
+            'password': '',
+            'confirmpassword': ''
+        });
     }
 });

@@ -1,3 +1,42 @@
-<h2 id="title">Welcome to Ember</h2>
-
-{{outlet}}
+{{#md-navbar name='GamerFinder' class='light-blue'}}
+  <!-- A workaround to get the "active" class
+    to apply to the active <li> automatically -->
+    {{#if session.isAuthenticated}}
+        <li>
+            <a href="#" id="logout" {{ action 'invalidateSession' }}>Logout</a>
+        </li>
+    {{else}}
+        {{#link-to 'login' tagName='li'}}
+            {{link-to 'Login' 'login'}}
+        {{/link-to}}
+        {{#link-to 'signup' tagName='li'}}
+            {{link-to 'Register' 'signup'}}
+        {{/link-to}}
+    {{/if}}
+{{/md-navbar}}
+<main>
+    <div class="container">
+        <div class="section">
+        {{outlet}}
+        </div>
+    </div>
+</main>
+<footer class='page-footer light-blue white-text'>
+    <div class="container">
+        <div class="row">
+            <div class="col m6 s12">
+                <h5></h5>
+            </div>
+            <div class="col m6 s12">
+                <h5></h5>
+            </div>
+        </div>
+    </div>
+    {{#md-copyright text='Brandon Hops'
+        startYear=2015
+        class='light-blue darken-2 white-text'}}
+        <a class="white-text right" href="#!">
+          More Links
+        </a>
+    {{/md-copyright}}
+</footer>

@@ -1,6 +1,16 @@
 {{outlet}}
-<form {{action 'save' on 'submit'}}>
-    {{input value=username type="text"}}
-    {{input value=password type="password"}}
-    <button type="submit">Submit</button>
+<div class="row">
+<div class="col l6 offset-l3 m8 offset-m2 s10 offset-s1">
+<form>
+    <div class="row">
+        {{md-input value=first_name class="col s6" label='First Name' type="text" required=true validate=true}}
+        {{md-input value=last_name class="col s6" label='Last Name' type="text" required=true validate=true}}
+    </div>
+    {{md-input value=username label='Username' type="text" required=true validate=true}}
+    {{md-input value=email label='Email' type="email" required=true validate=true}}
+    {{md-input value=password label='Password' type="password" required=true validate=true}}
+    {{md-input value=confirmpassword label='Confirm Password' type="password" required=true validate=true}}
+    <a href="#" class="waves-effect light-blue btn" {{ action 'signup' }}>Register</a>
 </form>
+</div>
+</div>

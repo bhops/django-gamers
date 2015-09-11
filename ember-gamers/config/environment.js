@@ -59,7 +59,9 @@ module.exports = function(environment) {
   ENV['simple-auth-token'].serverTokenEndpoint = ENV.APP.API_HOST + '/api-token-auth/';
   ENV['simple-auth-token'].serverTokenRefreshEndpoint = ENV.APP.API_HOST + '/api-token-refresh/';
   ENV.contentSecurityPolicy = {
-    'connect-src': "'self' " + ENV.APP.API_HOST
+    'connect-src': "'self' " + ENV.APP.API_HOST,
+    'style-src': "'self' fonts.googleapis.com 'unsafe-inline'",
+    'font-src': "'self' fonts.gstatic.com"
   }
   return ENV;
 };

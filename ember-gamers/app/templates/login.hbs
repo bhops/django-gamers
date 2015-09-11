@@ -1,8 +1,23 @@
 {{outlet}}
+<div class="row">
+<div class="col l6 offset-l3 m8 offset-m2 s10 offset-s1">
+{{#if loginFailed}}
+    {{#md-card-panel class="red"
+        bodyClass="white-text"
+        id="login-errors"}}
+        Invalid credentials    
+    {{/md-card-panel}}
+{{/if}}
+{{#if isProcessing}}
+    <div class="col s2 offset-s5">
+    {{md-loader mode="circular" size="small" color="blue" class="center"}}
+    </div>
+{{else}}
 <form {{action 'authenticate' on='submit'}}>
-  <label for="identification">Login</label>
-  {{input id='identification' placeholder='Enter Login' value=identification}}
-  <label for="password">Password</label>
-  {{input id='password' placeholder='Enter Password' type='password' value=password}}
-  <button type="submit">Login</button>
+    {{md-input value=identification label='Username' type="text" required=true validate=true}}
+    {{md-input value=password label='Password' type="password"  required=true validate=true}}
+    {{md-btn-submit icon='mdi-content-send' iconPosition='right' text='Login'}}
 </form>
+{{/if}}
+</div>
+</div>

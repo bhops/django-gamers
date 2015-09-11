@@ -1,0 +1,18 @@
+@import 'components/color';
+$grey-base: color("grey", "base");
+
+$primary-color: color("blue", "lighten-2");
+$secondary-color: color("white", "lighten0");
+$button-color: $primary-color;
+$input-focus-color: $primary-color;
+$input-border-color: $grey-base;
+$input-success-color: $grey-base;
+
+@import 'components/variables';
+@import 'materialize';
+@import 'ember-cli-materialize';
+
+.header {
+    text-align: center;
+    padding: 0 0 5vh 0;
+}
