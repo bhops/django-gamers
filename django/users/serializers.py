@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
+from .models import UserProfile
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True,
                                      validators=[UniqueValidator(queryset=User.objects.all(),
                                                                  message="That username is already in use.")])
@@ -31,3 +31,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ('dob', 'sex', 'about', 'user')

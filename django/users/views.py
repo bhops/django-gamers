@@ -1,8 +1,17 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.fields import empty
-from users.serializers import UserSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from users.models import UserProfile
+from users.serializers import UserProfileSerializer, UserSerializer
 from utils.permissions import UserListAndCreatePermissions
+
+class CurrentUserProfile(APIView):
+    def get(self, request):
+        profile = UserProfile.objects.get(user=request.user)
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
 
 class UserList(generics.ListCreateAPIView):
     permission_classes = (UserListAndCreatePermissions,)
