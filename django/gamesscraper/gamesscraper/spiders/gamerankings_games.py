@@ -24,7 +24,10 @@ class GameRankingsGameSpider(scrapy.Spider):
                                          callback=self.parse_platform)
 
                 request.meta['platform'] = self.get_or_create_platform(name, slug)
+                request.meta['gr-platform'] = slug
+                request.meta['gr-page'] = 1
                 yield request
+
 
     def parse_platform(self, response):
         for game in response.xpath("//*/tr"):
@@ -36,5 +39,12 @@ class GameRankingsGameSpider(scrapy.Spider):
 
             yield gameItem
 
-
-
+        pages = response.xpath('//*/div[@class="pod"]/div/a/text()').extract()
+        if "Next Page" in pages:
+            request = scrapy.Request("http://www.gamerankings.com/browse.html?site={0}&numrev=3&page={1}"
+                                    .format(str(response.meta['gr-platform']), response.meta['gr-page'] + 1),
+                                    callback=self.parse_platform)
+            request.meta['gr-platform'] = response.meta['gr-platform']
+            request.meta['gr-page'] = response.meta['gr-page'] + 1
+            request.meta['platform'] = response.meta['platform']
+            yield request
