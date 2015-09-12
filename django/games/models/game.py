@@ -7,7 +7,7 @@ from .platform import Platform
 
 class Game(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=50)
     description = models.TextField()
     released = models.DateField(auto_now_add=True)
     added = models.DateField(auto_now_add=True)
@@ -24,6 +24,7 @@ class Game(models.Model):
 
     class Meta:
         ordering = ('title',)
+        unique_together = ('slug', 'platform')
 
 
 @receiver(pre_save, sender=Game)
