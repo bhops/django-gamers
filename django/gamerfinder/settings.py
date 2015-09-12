@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'games',
     'users',
     'debug_toolbar',
+    'rest_framework_swagger',
     'django_extensions',
 )
 
