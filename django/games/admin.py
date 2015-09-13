@@ -1,5 +1,12 @@
 from django.contrib import admin
 from .models import Game, Platform
 
-admin.site.register(Game)
+class GameAdmin(admin.ModelAdmin):
+    list_display = ('title', 'platform', 'publisher', 'rating', 'url')
+    list_filter = (
+        ('platform', admin.RelatedOnlyFieldListFilter),
+        ('publisher'),
+    )
+
+admin.site.register(Game, GameAdmin)
 admin.site.register(Platform)

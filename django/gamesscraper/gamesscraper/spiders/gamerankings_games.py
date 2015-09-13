@@ -32,10 +32,16 @@ class GameRankingsGameSpider(scrapy.Spider):
     def parse_platform(self, response):
         for game in response.xpath("//*/tr"):
             title = game.xpath('td/a/text()').extract()[0]
+            url = game.xpath('td/a/@href').extract()[0]
+            data = game.xpath('td[3]/text()').extract()[0].split(',')
+            rating = game.xpath('td/span/b/text()').extract()[0]
 
             gameItem = GamesscraperItem()
             gameItem['title'] = title
+            gameItem['url'] = url
             gameItem['platform'] = response.meta['platform']
+            gameItem['publisher'] = data[0].strip()
+            gameItem['rating'] = rating
 
             yield gameItem
 
