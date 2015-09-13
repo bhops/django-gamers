@@ -6,7 +6,7 @@ class Game(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=50, unique=True)
     description = models.TextField(null=True)
-    url = models.URLField(null=True)
+    gr_url = models.URLField(null=True)
     publisher = models.CharField(null=True, max_length=150)
     released = models.DateField(null=True)
     rating = models.CharField(max_length=10, null=True)

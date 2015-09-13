@@ -1,27 +1,38 @@
-from rest_framework import generics
+from rest_framework import generics, mixins
 from games.models import Game, Platform
 from games.serializers import GameSerializer, PlatformSerializer
-from utils.permissions import IsAdminOrReadOnly
 
-class GameList(generics.ListCreateAPIView):
-    permission_classes = (IsAdminOrReadOnly,)
-    lookup_field = 'slug'
-    queryset = Game.objects.all()
+class GameList(mixins.ListModelMixin,
+               generics.GenericAPIView):
     serializer_class = GameSerializer
-
-class GameDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAdminOrReadOnly,)
-    lookup_field = 'slug'
     queryset = Game.objects.all()
-    serializer_class = GameSerializer
 
-class PlatformList(generics.ListCreateAPIView):
-    permission_classes = (IsAdminOrReadOnly,)
-    queryset = Platform.objects.all()
-    serializer_class = PlatformSerializer
+    def get(self, request, *args, **kwargs):
+       return self.list(request, *args, **kwargs)
 
-class PlatformDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAdminOrReadOnly,)
+class GameDetail(mixins.RetrieveModelMixin,
+                 generics.GenericAPIView):
     lookup_field = 'slug'
-    queryset = Platform.objects.all()
+    serializer_class = GameSerializer
+    queryset = Game.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class PlatformList(mixins.ListModelMixin,
+                   generics.GenericAPIView):
     serializer_class = PlatformSerializer
+    queryset = Platform.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+class PlatformDetail(mixins.RetrieveModelMixin,
+                     generics.GenericAPIView):
+    lookup_field = 'slug'
+    serializer_class = PlatformSerializer
+    queryset = Platform.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
