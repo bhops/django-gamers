@@ -188,7 +188,7 @@ class AdminGameAPITests(GameAPITests):
                 'title': 'League of Legends',
                 'platform': self.p1.slug,
                 'description': 'description',
-                'released': timezone.now()
+                'released': '2015-01-01'
             }
         response = self.client.post(url, data, format='json')
 

@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.utils import timezone
 from games.models import Game, Platform
 
 class GameModelTest(TestCase):
@@ -23,22 +22,3 @@ class GameModelTest(TestCase):
         Verify that the plural of `Game` is `Games`.
         """
         self.assertEqual(str(Game._meta.verbose_name_plural), "games")
-
-    def test_description_pull(self):
-        """
-        Verify that the game descriptions are pulled in correctly only when
-        the description is set to `tbd`.
-        """
-        game = Game(title="Hearthstone: Heroes of Warcraft",
-        released=timezone.now(),
-        platform=self.platform,
-        description='This is not a real description')
-        game.save()
-        # Verify that the description was not saved
-        self.assertEqual(game.description, 'This is not a real description')
-        game.description = 'tbd'
-        game.save()
-        self.assertNotEqual(game.description, 'This is not a real description')
-        self.assertNotEqual(game.description, 'tbd')
-        self.assertNotEqual(game.description, '')
-
