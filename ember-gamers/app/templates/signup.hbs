@@ -1,16 +1,54 @@
 {{outlet}}
 <div class="row">
-<div class="col l6 offset-l3 m8 offset-m2 s10 offset-s1">
-<form>
-    <div class="row">
-        {{md-input value=first_name class="col s6" label='First Name' type="text" required=true validate=true}}
-        {{md-input value=last_name class="col s6" label='Last Name' type="text" required=true validate=true}}
+<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+
+<form {{action 'signup' on='submit'}} class="form-horizontal">
+
+  <div class="form-group">
+    <label for="inputFirstname" class="col-md-2 control-label">First Name</label>
+    <div class="col-md-4">
+      {{input type="text" value=first_name class="form-control" id="inputFirstname" placeholder="First Name"}}
     </div>
-    {{md-input value=username label='Username' type="text" required=true validate=true}}
-    {{md-input value=email label='Email' type="email" required=true validate=true}}
-    {{md-input value=password label='Password' type="password" required=true validate=true}}
-    {{md-input value=confirmpassword label='Confirm Password' type="password" required=true validate=true}}
-    <a href="#" class="waves-effect light-blue btn" {{ action 'signup' }}>Register</a>
+
+    <label for="inputLastname" class="col-md-2 control-label">Last Name</label>
+    <div class="col-md-4">
+      {{input type="text" value=last_name class="form-control" id="inputLastname" placeholder="Last Name"}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+    <div class="col-sm-10">
+      {{input type="text" value=username class="form-control" id="inputUsername" placeholder="Username"}}
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+      {{input type="email" value=email class="form-control" id="inputEmail" placeholder="Email"}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputPassword" class="col-md-2 control-label">Password</label>
+    <div class="col-md-4">
+      {{input type="password" value=password class="form-control" id="inputPassword" placeholder="Password"}}
+    </div>
+
+    <label for="inputCPassword" class="col-md-2 control-label">Confirm Password</label>
+    <div class="col-md-4">
+      {{input type="password" value=cpassword class="form-control" id="inputCPassword" placeholder="Confirm Password"}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Register</button>
+    </div>
+  </div>
 </form>
+
 </div>
 </div>

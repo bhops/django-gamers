@@ -14,6 +14,7 @@ module.exports = function(environment) {
     },
 
     'simple-auth': {
+        session: 'session:custom',
         authorizer: 'simple-auth-authorizer:token'
     },
     'simple-auth-token': {

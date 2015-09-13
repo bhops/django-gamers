@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
     actions: {
         signup: function() {
             var self = this;
-            if (self.get('password') === self.get('confirmpassword')) {
+            if (self.get('password') === self.get('cpassword')) {
                 return $.ajax({
                     url: 'http://localhost:8000/api/users/',
                     type: 'POST',

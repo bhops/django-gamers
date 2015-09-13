@@ -1,6 +1,6 @@
 {{outlet}}
 <ul>
-{{#each user in model}}
+{{#each model as |user|}}
     <li>{{user.username}} - {{user.first_name}} {{user.last_name}}</li>
 {{/each}}
 </ul>

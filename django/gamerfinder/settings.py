@@ -138,10 +138,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+from utils.jwt import jwt_response_payload_handler
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1)
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': jwt_response_payload_handler
 }
 
 AUTHENTICATION_BACKEND = (
