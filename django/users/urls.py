@@ -1,11 +1,8 @@
-from django.conf.urls import url
-from rest_framework.urlpatterns import format_suffix_patterns
-from users import views
+from rest_framework import routers
+from users.views import Users
 
-urlpatterns = [
-    url(r'^profile$', views.CurrentUserProfile.as_view(), name='current-profile'),
-    url(r'^users$', views.UserList.as_view(), name='user-list'),
-    url(r'^users/(?P<username>\w+)$', views.UserDetail.as_view(), name='user-detail'),
-]
+router = routers.DefaultRouter(trailing_slash=False)
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+router.register(r'users', Users)
+
+urlpatterns = router.urls
