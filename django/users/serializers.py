@@ -12,11 +12,10 @@ class UserSerializer(serializers.ModelSerializer):
                                                                message="That email is already in use.")])
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
-    password = serializers.CharField(required=True, write_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'password','email')
+        fields = ('id', 'username', 'first_name', 'last_name','email')
         write_only_fields = ('password',)
         read_only_fields = ('id', 'username',)
 

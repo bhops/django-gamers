@@ -1,5 +1,4 @@
-import DRFSerializer from './drf';
+import DS from 'ember-data';
 
-export default DRFSerializer.extend({
-    primaryKey: 'username'
+export default DS.JSONAPISerializer.extend({
 });
