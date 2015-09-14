@@ -219,4 +219,4 @@ export default [
         "added": "2015-09-14",
         "platform": "181"
     }
-]
+];

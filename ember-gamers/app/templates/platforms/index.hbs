@@ -1,0 +1,22 @@
+{{outlet}}
+<div class="page-header">
+    <h1>Platforms 
+    {{#if selectedPlatform}}
+    <small>Browsing {{selectedPlatform.name}}</small>
+    {{else}}
+    <small>Please select a platform</small>
+    {{/if}}
+    </h1>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        {{platform-list
+            platforms=model.platforms
+            selectedPlatform="selectPlatform"}}
+    </div>
+
+    <div class="col-md-9">
+        {{game-table games=selectedPlatform.games}}
+    </div>
+
+</div>

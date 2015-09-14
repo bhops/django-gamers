@@ -11,8 +11,8 @@ Router.map(function() {
   });
   this.route('signup');
   this.route('login');
-  this.resource('games', function(){
-    this.resource('game', { path: '/:slug' });
+  this.resource('platforms', function(){
+    this.resource('platform', { path: '/:slug' });
   });
 });
 

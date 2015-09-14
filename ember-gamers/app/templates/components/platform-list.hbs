@@ -1,0 +1,10 @@
+<div class="list-group">
+    {{#each platforms as |platform|}}
+        {{#if platform.numGames}}
+        <button type="button" class="list-group-item"{{ action 'selectPlatform' platform}}>
+            {{platform.name}}
+            <span class="badge">{{platform.numGames}}</span>
+        </button>
+        {{/if}}
+    {{/each}}
+</div>
