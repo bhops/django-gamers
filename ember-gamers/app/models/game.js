@@ -1,7 +1,8 @@
 import DS from 'ember-data';
+import GAMEFIXTURES from 'ember-gamers/fixtures/games';
 
-export default DS.Model.extend({
-    platform: DS.belongsTo('platform', {embedded: 'always'}),
+var Game = DS.Model.extend({
+    platform: DS.belongsTo('platform', {async: true}),
     slug: DS.attr('string'),
     title: DS.attr('string'),
     description: DS.attr('string'),
@@ -10,3 +11,9 @@ export default DS.Model.extend({
     rating: DS.attr('string'),
     added: DS.attr('string')
 });
+
+Game.reopenClass({
+    FIXTURES: GAMEFIXTURES
+});
+
+export default Game;
