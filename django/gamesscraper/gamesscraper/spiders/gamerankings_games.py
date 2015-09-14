@@ -38,7 +38,7 @@ class GameRankingsGameSpider(scrapy.Spider):
 
             gameItem = GamesscraperItem()
             gameItem['title'] = title
-            gameItem['url'] = url
+            gameItem['gr_url'] = url
             gameItem['platform'] = response.meta['platform']
             gameItem['publisher'] = data[0].strip()
             gameItem['rating'] = rating
